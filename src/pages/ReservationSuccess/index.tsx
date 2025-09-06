@@ -85,7 +85,7 @@ function ReservationSuccess() {
               localStorage.removeItem("reservation");
               navigate("/");
             }}
-            className="mt-8 w-full px-6 py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition duration-300"
+            className="mt-8 w-full px-6 py-3 bg-black text-white hover:bg-gray-800 transition duration-300"
           >
             {t("Finish")}
           </button>

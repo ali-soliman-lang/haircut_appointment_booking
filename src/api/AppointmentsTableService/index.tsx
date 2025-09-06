@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { reservations } from "./types";
+import type { reservations, SendReservations } from "./types";
 
 const API_URL = "https://alhalaq.up.railway.app/api/v1/reservations";
 
@@ -8,7 +8,7 @@ export const getAppointments = async (): Promise<reservations[]> => {
   return data.data;
 };
 
-export const createAppointment = async (appointment: reservations) => {
+export const createAppointment = async (appointment: SendReservations) => {
   const { data } = await axios.post(API_URL, appointment);
   return data;
 };

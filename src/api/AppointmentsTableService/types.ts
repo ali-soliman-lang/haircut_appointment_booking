@@ -8,3 +8,8 @@ export interface reservations {
   };
   __v: number;
 }
+export interface SendReservations {
+  name: string;
+  mobile: string;
+  time: string;
+}

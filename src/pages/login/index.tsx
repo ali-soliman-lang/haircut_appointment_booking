@@ -24,8 +24,8 @@ function Login() {
           .required("password is required"),
       }),
       onSubmit: (values) => {
-        const correctUserName = "user12345";
-        const correctPassword = "12345";
+        const correctUserName = "adminRezk";
+        const correctPassword = "01150090599";
         if (
           values.userName === correctUserName &&
           values.password === correctPassword

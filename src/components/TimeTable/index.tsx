@@ -6,8 +6,8 @@ import {
   deleteTimeTable,
 } from "../../api/TimeTableService/index";
 import type { Appointment } from "../../api/TimeTableService/types";
-import AppointmentModal from "../AppointmentModal/AppointmentModal";
 import { toast } from "react-hot-toast";
+import TimeTableModal from "../TimeTableModal";
 
 function TimeTable() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -32,15 +32,6 @@ function TimeTable() {
   useEffect(() => {
     fetchData();
   }, []);
-
-  const handleCancel = (id: number | string) => {
-    setAppointments((prev) =>
-      prev.map((item) =>
-        item._id === id ? { ...item, status: "Cancelled" } : item
-      )
-    );
-    setSelected(null);
-  };
 
   if (loading)
     return (
@@ -128,13 +119,12 @@ function TimeTable() {
       </div>
 
       {(selected || isAdding) && (
-        <AppointmentModal
+        <TimeTableModal
           selected={selected}
           onClose={() => {
             setSelected(null);
             setIsAdding(false);
           }}
-          onCancel={handleCancel}
         >
           <div className="flex flex-col gap-4 p-4">
             <h3 className="text-xl font-semibold text-slate-800 border-b pb-2">
@@ -191,7 +181,7 @@ function TimeTable() {
               </button>
             </div>
           </div>
-        </AppointmentModal>
+        </TimeTableModal>
       )}
     </>
   );
