@@ -1,0 +1,58 @@
+{
+  "en": {
+    "translation": {
+      "welcome": "Welcome to Rezk Barber Shop",
+      "BookNow": "Book Now",
+      "AddName": "Add Your Name",
+      "NameRequired": "Name is required",
+      "AddPhoneNumber": "Add your Phone Number",
+      "PhoneNumberRequired": "mobile number is required",
+      "ChooseTime": "Choose Time",
+      "TimeRequired": "Time is required",
+      "ConfirmReservation": "Confirm Reservation",
+      "ReservationsDone": "reservations done",
+      "BookingInProgress": "Booking in Progress",
+      "Min3Characters": "Min 3 Characters",
+      "NumbersOnly": "Numbers Only",
+      "PhoneNumberMin": "Phone Number Min 11",
+      "PhoneNumberMax": "Phone Number Max 11",
+      "AllTimesReserved": "All Times Reserved",
+      "Refresh": "Time available",
+      "Loading": "Loading",
+      "Name": "name",
+      "PhoneNumber": "Phone Number",
+      "Time": "time",
+      "Finish": "Finish",
+      "TimeAlreadyReserved": "Time Already Reserved",
+      "changeLanguage": "EN"
+    }
+  },
+  "ar": {
+    "translation": {
+      "welcome": "مرحباً بكم في صالون رزق",
+      "BookNow": "احجز الان",
+      "AddName": "اكتب اسمك",
+      "NameRequired": "الاسم مطلوب",
+      "AddPhoneNumber": "اكتب رقم التليفون",
+      "PhoneNumberRequired": "رقم التليفون مطلوب",
+      "ChooseTime": "اختار الموعد",
+      "TimeRequired": "تحديد الموعد مطلوب",
+      "ConfirmReservation": "تاكيد الحجز",
+      "ReservationsDone": "تم الحجز تاكيد الحجز بنجاح",
+      "BookingInProgress": "جاري الحجز",
+      "Min3Characters": "ثلاث حروف علي الاقل",
+      "NumbersOnly": "ارقام فقط",
+      "PhoneNumberMin": "رقم التليفون اقل من 11",
+      "PhoneNumberMax": "رقم التليفون اكثر من 11",
+      "AllTimesReserved": "كل المواعيد محجوزة",
+      "Refresh": "المواعيد المتاحة",
+      "Loading": "تحميل",
+      "Name": "الاسم",
+      "PhoneNumber": "رقم الهاتف",
+      "Time": "الموعد",
+      "Finish": "انهاء",
+      "TimeAlreadyReserved": "عذرًا، هذا الموعد محجوز بالفعل",
+      "changeLanguage": "AR"
+    }
+  }
+}
