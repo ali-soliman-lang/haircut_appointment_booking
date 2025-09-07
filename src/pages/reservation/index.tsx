@@ -142,7 +142,7 @@ function Reservation() {
             <p className="text-xl font-bold text-black-600">
               {t("AllTimesReserved")}
             </p>
-            <button
+            {/* <button
               onClick={async () => {
                 try {
                   setLoading("refresh");
@@ -161,7 +161,7 @@ function Reservation() {
   }`}
             >
               {loading === "refresh" ? t("Loading") : t("Refresh")}
-            </button>
+            </button> */}
           </div>
         ) : (
           <form
