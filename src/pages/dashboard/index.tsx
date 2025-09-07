@@ -41,6 +41,10 @@ function Dashboard() {
     fetchAppointments();
   };
 
+  const handleAppointmentsChange = (newAppointments: reservations[]) => {
+    setAppointments(newAppointments);
+  };
+
   useEffect(() => {
     if (activeTab === "appointments") {
       fetchAppointments();
@@ -93,6 +97,7 @@ function Dashboard() {
           <AppointmentsTable
             appointments={appointments}
             onSelect={setSelected}
+            onAppointmentsChange={handleAppointmentsChange}
           />
         )}
         {activeTab === "Times" && <TimeTable />}

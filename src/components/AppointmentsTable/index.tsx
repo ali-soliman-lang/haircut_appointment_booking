@@ -2,13 +2,20 @@ import { useEffect, useState } from "react";
 import type { reservations } from "../../api/AppointmentsTableService/types";
 import { getTimeTable } from "../../api/TimeTableService";
 import type { Appointment } from "../../api/TimeTableService/types";
+import { toast } from "react-hot-toast";
+import { cancelAppointment } from "../../api/AppointmentsTableService";
 
 interface Props {
   appointments: reservations[];
   onSelect: (item: reservations | null) => void;
+  onAppointmentsChange: (appointments: reservations[]) => void;
 }
 
-function AppointmentsTable({ appointments, onSelect }: Props) {
+function AppointmentsTable({
+  appointments,
+  onSelect,
+  onAppointmentsChange,
+}: Props) {
   const [loading, setLoading] = useState(true);
   const [timeAvailable, setTimeAvailable] = useState<Appointment[]>([]);
 
@@ -29,11 +36,36 @@ function AppointmentsTable({ appointments, onSelect }: Props) {
     return () => clearTimeout(timer);
   }, [appointments]);
 
+  const handleDeleteAll = async () => {
+    const ids = appointments.map((item) => item._id);
+    setLoading(true);
+    try {
+      await Promise.all(ids.map((id) => cancelAppointment(id)));
+      onAppointmentsChange([]);
+      onSelect(null);
+      toast.success("delete all appointments successfully");
+    } catch {
+      toast.error("Delete all appointments failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <h2 className="text-xl font-semibold mb-4 text-slate-800">
         📅 Booked Appointments
       </h2>
+      <div className="flex justify-start w-[65%]">
+        <button
+          onClick={() => {
+            handleDeleteAll();
+          }}
+          className="bg-red-500 text-white px-2 py-1 rounded-md cursor-pointer mb-5"
+        >
+          Delete all Appointments
+        </button>
+      </div>
       <div className="overflow-x-auto rounded-2xl shadow-lg border border-slate-200 w-[65%]">
         {loading ? (
           <div className="flex justify-center items-center p-6">
