@@ -53,7 +53,7 @@ function AppointmentModal({
                 <span className="font-medium">Phone:</span> {selected?.mobile}
               </span>
               <a
-                href={`tel:+20${selected?.mobile}`}
+                href={`tel:${selected?.mobile}`}
                 className="bg-green-500 text-white px-2 py-1 rounded-md cursor-pointer"
               >
                 Call
