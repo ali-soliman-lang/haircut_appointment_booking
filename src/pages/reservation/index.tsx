@@ -142,26 +142,6 @@ function Reservation() {
             <p className="text-xl font-bold text-black-600">
               {t("AllTimesReserved")}
             </p>
-            {/* <button
-              onClick={async () => {
-                try {
-                  setLoading("refresh");
-                  await getTimeDropdown();
-                  await fetchAppointments();
-                } finally {
-                  setLoading("none");
-                }
-              }}
-              disabled={loading === "refresh"}
-              className={`w-[50%] px-6 py-2 mt-6 shadow-md transition duration-300 cursor-pointer shadow-black-500/50
-  ${
-    loading === "refresh"
-      ? "bg-gray-400 text-white cursor-not-allowed"
-      : "bg-[#0d0d0d] text-white hover:bg-white hover:text-black border-2 border-black"
-  }`}
-            >
-              {loading === "refresh" ? t("Loading") : t("Refresh")}
-            </button> */}
           </div>
         ) : (
           <form
