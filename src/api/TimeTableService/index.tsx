@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { Appointment } from "./types";
 
-const API_URL = "https://alhalaq-production.up.railway.app/api/v1/time";
+const API_URL = "https://alhalaq.vercel.app/api/v1/time";
 
 export const getTimeTable = async (): Promise<Appointment[]> => {
   const { data } = await axios.get(API_URL);
