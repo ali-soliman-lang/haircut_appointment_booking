@@ -1,5 +1,15 @@
 import "./index.css";
 
+interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  placeholder: string;
+  type: string;
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  helperText: string;
+}
+
 function TextInput({
   placeholder,
   type,
@@ -8,15 +18,8 @@ function TextInput({
   onChange,
   onBlur,
   helperText,
-}: {
-  placeholder: string;
-  type: string;
-  label: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  helperText: string;
-}) {
+  ...props
+}: TextInputProps) {
   const isRTL = document.documentElement.getAttribute("dir") === "rtl";
   return (
     <>
@@ -32,10 +35,10 @@ function TextInput({
           value={value}
           onChange={onChange}
           onBlur={onBlur}
-          autoComplete="off"
           className={`peer w-full h-14 pt-7 px-3 text-base font-normal bg-transparent text-black placeholder-transparent border-0 shadow-[inset_0_-1px_0_rgba(0,0,0,0.3)] transition-all duration-150 ease-in-out focus:outline-none focus:bg-transparent focus:shadow-[inset_0_-2px_0_#000] ${
             isRTL ? "text-right" : "text-left"
           }`}
+          {...props}
         />
         <span
           className={`absolute top-5 ${

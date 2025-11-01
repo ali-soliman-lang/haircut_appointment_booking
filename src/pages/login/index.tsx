@@ -50,19 +50,23 @@ function Login() {
             placeholder={"User Name"}
             type={"text"}
             label={"userName"}
+            name="userName"
             value={values.userName}
             onBlur={handleBlur}
             onChange={handleChange}
             helperText={(touched.userName && errors.userName) || ""}
+            autoComplete="username"
           />
           <TextInput
             placeholder={"password"}
-            type={"text"}
+            type={"password"}
             label={"password"}
+            name="password"
             value={values.password}
             onBlur={handleBlur}
             onChange={handleChange}
             helperText={(touched.password && errors.password) || ""}
+            autoComplete="password"
           />
           <button
             type="submit"
