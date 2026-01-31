@@ -44,6 +44,7 @@
       "AppointmentDetails": "Appointment Details",
       "Call": "Call",
       "Close": "Close",
+      "NoAvailableTimes": "No Available Times",
       "changeLanguage": "EN"
     }
   },
@@ -92,6 +93,7 @@
       "AppointmentDetails": "تفاصيل الموعد",
       "Call": "اتصال",
       "Close": "اغلاق",
+      "NoAvailableTimes": "لا توجد مواعيد متاحة",
       "changeLanguage": "AR"
     }
   }

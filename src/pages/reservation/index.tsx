@@ -168,6 +168,12 @@ function Reservation() {
 
         {initialLoading ? (
           <Spinner />
+        ) : timeData.length === 0 ? (
+          <div className="w-full text-center mt-10">
+            <p className="text-xl font-bold text-black-600">
+              {t("NoAvailableTimes")}
+            </p>
+          </div>
         ) : allTimesReserved ? (
           <div className="w-full text-center mt-10">
             <p className="text-xl font-bold text-black-600">
