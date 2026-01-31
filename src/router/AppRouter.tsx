@@ -5,10 +5,12 @@ import Dashboard from "../pages/dashboard";
 import Login from "../pages/login";
 import WelcomeScreen from "../pages/welcomeScreen";
 import ReservationSuccess from "../pages/ReservationSuccess";
+import SelectBarber from "../pages/SelectBarber";
 function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<WelcomeScreen />} />
+      <Route path="/SelectBarber" element={<SelectBarber />} />
       <Route path="/reservation" element={<Reservation />} />
       <Route
         path="/dashboard"

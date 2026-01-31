@@ -3,8 +3,10 @@ import type { Appointment } from "./types";
 
 const API_URL = "https://alhalaq.vercel.app/api/v1/time";
 
-export const getTimeTable = async (): Promise<Appointment[]> => {
-  const { data } = await axios.get(API_URL);
+export const getTimeTable = async (barber: string): Promise<Appointment[]> => {
+  const { data } = await axios.get(`${API_URL}/`, {
+    params: { barber },
+  });
   return data?.data;
 };
 
@@ -14,13 +16,13 @@ export const createTimeTable = async (appointment: Appointment) => {
 };
 
 export const editTimeTable = async (
-  id: number | string,
-  updatedFields: Partial<Appointment>
+  barber: string,
+  updatedFields: Partial<Appointment>,
 ) => {
-  const { data } = await axios.put(`${API_URL}/${id}`, updatedFields);
+  const { data } = await axios.patch(`${API_URL}/${barber}`, updatedFields);
   return data?.data;
 };
 
-export const deleteTimeTable = async (id: number | string) => {
-  await axios.delete(`${API_URL}/${id}`);
+export const deleteTimeTable = async (barber: string) => {
+  await axios.delete(`${API_URL}/${barber}`);
 };

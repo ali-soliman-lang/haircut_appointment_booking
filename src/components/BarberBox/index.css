@@ -1,0 +1,62 @@
+.card {
+  --border-gradient: linear-gradient(to left, #111827, #374151, #6b7280);
+
+  width: 190px;
+  height: 254px;
+  padding: 3px;
+  border-radius: 1rem;
+  position: relative;
+  cursor: pointer;
+
+  background:
+    linear-gradient(white, white) padding-box,
+    var(--border-gradient) border-box;
+
+  border: 10px solid transparent;
+
+  transition: 0.3s ease;
+}
+
+.card::after {
+  position: absolute;
+  content: "";
+  inset: 0;
+  z-index: -1;
+
+  transform: scale(0.85);
+  filter: blur(18px);
+
+  background: var(--border-gradient);
+  opacity: 0.5;
+
+  transition: 0.4s;
+}
+
+.card-info {
+  background: white;
+  color: #111827;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+  border-radius: 0.7rem;
+
+  font-weight: bold;
+  letter-spacing: 0.1em;
+}
+
+.card:hover::after {
+  opacity: 0;
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card:hover .card-info {
+  color: #000;
+}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Logo from "../../components/Logo";
 import SelectInput from "../../components/selectInput";
 import TextInput from "../../components/textInput";
@@ -17,33 +17,57 @@ import LanguageToggle from "../../components/LanguageToggle";
 import { useTranslation } from "react-i18next";
 import Footer from "../../components/Footer";
 import Spinner from "../../components/spinner";
+import { useSearchParams } from "react-router-dom";
+import BackButton from "../../components/BackButton";
+import useDisableBack from "../../hooks/useDisableBack";
 
 function Reservation() {
   const [timeData, setTimeData] = useState<Appointment[]>([]);
   const [reservedTime, setReservedTime] = useState<string[]>([]);
   const [initialLoading, setInitialLoading] = useState(true);
   const [loading, setLoading] = useState<"none" | "submit" | "refresh">("none");
+  const [searchParams] = useSearchParams();
+  const barberId = searchParams.get("barberId");
+  const name = searchParams.get("name");
 
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
   // get all time
-  const getTimeDropdown = async () => {
-    const dataTimeNew = await getTimeTable();
-    setTimeData(dataTimeNew);
-  };
-  // get time reserved
-  const fetchAppointments = async () => {
+  // const getTimeDropdown = async () => {
+  //   const dataTimeNew = await getTimeTable(barberId || "");
+  //   setTimeData(dataTimeNew);
+  // };
+  const getTimeDropdown = useCallback(async () => {
     try {
-      const data = await getAppointments();
+      const dataTimeNew = await getTimeTable(barberId || "");
+      setTimeData(dataTimeNew);
+    } catch (error) {
+      console.error("Error fetching time dropdown:", error);
+    }
+  }, [barberId]);
+  // get time reserved
+  // const fetchAppointments = async () => {
+  //   try {
+  //     const data = await getAppointments({ barber: barberId || "" });
+  //     setReservedTime(
+  //       data.map((item) => item?.time?.from_time).filter(Boolean),
+  //     );
+  //     setInitialLoading(false);
+  //   } catch {
+  //     console.error("Error fetching appointments:");
+  //   }
+  // };
+  const fetchAppointments = useCallback(async () => {
+    try {
+      const data = await getAppointments({ barber: barberId || "" });
       setReservedTime(
-        data.map((item) => item?.time?.from_time).filter(Boolean)
+        data.map((item) => item?.time?.from_time).filter(Boolean),
       );
-      setInitialLoading(false);
     } catch {
       console.error("Error fetching appointments:");
     }
-  };
+  }, [barberId]);
 
   const allTimesReserved =
     timeData.length > 0 &&
@@ -68,7 +92,7 @@ function Reservation() {
     return () => {
       isMounted = false; // clean-up
     };
-  }, []);
+  }, [getTimeDropdown, fetchAppointments]);
 
   // ✅ Make validation schema dynamic with language
   const validationSchema = object({
@@ -102,13 +126,13 @@ function Reservation() {
     },
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
       try {
         setLoading("submit");
         await createAppointment({
           name: values.name,
           mobile: values.phoneNumber,
           time: values.time,
+          barber: barberId || "",
         });
         toast.success(t("ReservationsDone"));
         resetForm();
@@ -116,7 +140,7 @@ function Reservation() {
         fetchAppointments();
         localStorage.setItem("reservation", JSON.stringify(values));
 
-        navigate("/success");
+        navigate(`/success?barberId=${barberId}`);
       } catch {
         toast.error(t("TimeAlreadyReserved"));
       } finally {
@@ -124,17 +148,24 @@ function Reservation() {
       }
     },
   });
+
+  useDisableBack();
   return (
     <>
-      <div className="min-h-screen w-full max-w-[400px] mx-auto px-4 flex flex-col justify-center items-center text-center">
+      <div className="min-h-screen w-full max-w-[400px] mx-auto px-4 flex flex-col justify-center items-center text-center pt-[60px]">
         <div className="w-full flex justify-end mb-6">
           <LanguageToggle />
+          <BackButton to={"/SelectBarber?from=WelcomeScreen"} />
         </div>
         <div className="flex justify-center items-center w-full">
           <div className="mt-11">
             <Logo />
           </div>
         </div>
+        <h2 className="text-2xl font-semibold text-center mb-4 mt-6">
+          {name ? t(`barbers.${name}`) : ""}
+        </h2>
+
         {initialLoading ? (
           <Spinner />
         ) : allTimesReserved ? (
@@ -179,11 +210,6 @@ function Reservation() {
               value={values.phoneNumber}
               onBlur={handleBlur}
               onChange={handleChange}
-              // helperText={
-              //   touched.phoneNumber && errors.phoneNumber
-              //     ? t("PhoneNumberRequired")
-              //     : ""
-              // }
               helperText={
                 touched.phoneNumber
                   ? [
@@ -207,7 +233,7 @@ function Reservation() {
               name="time"
               placeholder={t("ChooseTime")}
               options={timeData.filter(
-                (time) => !reservedTime.includes(String(time?.from_time))
+                (time) => !reservedTime.includes(String(time?.from_time)),
               )}
               value={values.time}
               onChange={setFieldValue}

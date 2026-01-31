@@ -31,7 +31,8 @@ function Login() {
           values.password === correctPassword
         ) {
           Cookies.set("isLoggedIn", "true", { expires: 1 });
-          navigate("/dashboard");
+          // navigate("/dashboard");
+          navigate("/SelectBarber?from=login");
           toast.success("You have successfully logged in");
         } else {
           toast.error("Incorrect username or password");

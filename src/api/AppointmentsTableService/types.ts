@@ -12,4 +12,5 @@ export interface SendReservations {
   name: string;
   mobile: string;
   time: string;
+  barber?: string;
 }

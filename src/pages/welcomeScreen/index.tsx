@@ -17,7 +17,7 @@ function WelcomeScreen() {
         {t("welcome")}
       </h2>
       <button
-        onClick={() => navigate("/reservation")}
+        onClick={() => navigate("/SelectBarber?from=WelcomeScreen")}
         type="button"
         className="px-6 py-2 bg-[#0d0d0d] text-white shadow-md hover:bg-white hover:text-black border-2 border-black m-4 transition duration-300 cursor-pointer shadow-black-500/50"
       >

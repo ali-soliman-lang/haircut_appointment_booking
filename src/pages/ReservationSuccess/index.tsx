@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getTimeTable } from "../../api/TimeTableService";
 import type { Appointment } from "../../api/TimeTableService/types";
@@ -10,6 +10,8 @@ import Spinner from "../../components/spinner";
 function ReservationSuccess() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const barberId = searchParams.get("barberId");
   const [reservation, setReservation] = useState<{
     name: string;
     phoneNumber: string;
@@ -18,10 +20,18 @@ function ReservationSuccess() {
   const [timeData, setTimeData] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const getTimeDropdown = async () => {
-    const dataTimeNew = await getTimeTable();
-    setTimeData(dataTimeNew);
-  };
+  // const getTimeDropdown = async () => {
+  //   const dataTimeNew = await getTimeTable(barberId || "");
+  //   setTimeData(dataTimeNew);
+  // };
+  const getTimeDropdown = useCallback(async () => {
+    try {
+      const dataTimeNew = await getTimeTable(barberId || "");
+      setTimeData(dataTimeNew);
+    } catch (error) {
+      console.error("Error fetching time dropdown:", error);
+    }
+  }, [barberId]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +48,7 @@ function ReservationSuccess() {
     };
 
     fetchData();
-  }, [navigate]);
+  }, [navigate, getTimeDropdown]);
 
   if (loading) {
     return (

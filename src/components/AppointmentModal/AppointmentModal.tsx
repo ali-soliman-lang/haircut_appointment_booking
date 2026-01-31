@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { reservations } from "../../api/AppointmentsTableService/types";
 import { cancelAppointment } from "../../api/AppointmentsTableService";
 import { toast } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 interface AppointmentModalProps {
   selected: reservations | null;
@@ -16,6 +17,8 @@ function AppointmentModal({
   onCancel,
   children,
 }: AppointmentModalProps) {
+  const { t } = useTranslation();
+
   if (!selected) return null;
 
   const deleteAppointment = async () => {
@@ -42,26 +45,29 @@ function AppointmentModal({
           children
         ) : (
           <>
-            <h3 className="text-lg font-semibold mb-4">Appointment Details</h3>
+            <h3 className="text-lg font-semibold mb-4">
+              {t("AppointmentDetails")}
+            </h3>
 
             <p className="mb-2 flex items-start gap-2">
-              <span className="font-medium">Name:</span> {selected?.name}
+              <span className="font-medium">{t("Name")}:</span> {selected?.name}
             </p>
 
             <p className="mb-2 flex items-center justify-between">
               <span>
-                <span className="font-medium">Phone:</span> {selected?.mobile}
+                <span className="font-medium">{t("PhoneNumber")}:</span>{" "}
+                {selected?.mobile}
               </span>
               <a
                 href={`tel:${selected?.mobile}`}
                 className="bg-green-500 text-white px-2 py-1 rounded-md cursor-pointer"
               >
-                Call
+                {t("Call")}
               </a>
             </p>
 
             <p className="mb-4 flex items-start gap-2">
-              <span className="font-medium">Time: </span>{" "}
+              <span className="font-medium">{t("Time")}: </span>{" "}
               {selected?.time?.from_time}
             </p>
 
@@ -70,7 +76,7 @@ function AppointmentModal({
                 onClick={onClose}
                 className="px-4 py-2 rounded-lg bg-slate-200 text-slate-700 hover:bg-slate-300"
               >
-                Close
+                {t("Close")}
               </button>
               <button
                 onClick={() => {
@@ -79,7 +85,7 @@ function AppointmentModal({
                 }}
                 className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
               >
-                Remove Reservation
+                {t("Delete")}
               </button>
             </div>
           </>

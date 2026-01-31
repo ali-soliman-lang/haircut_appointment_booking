@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   getTimeTable,
   createTimeTable,
@@ -8,6 +8,8 @@ import {
 import type { Appointment } from "../../api/TimeTableService/types";
 import { toast } from "react-hot-toast";
 import TimeTableModal from "../TimeTableModal";
+import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 
 function TimeTable() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -16,35 +18,40 @@ function TimeTable() {
   const [selected, setSelected] = useState<Appointment | null>(null);
   const [isAdding, setIsAdding] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
+  const barberId = searchParams.get("barberId");
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await getTimeTable();
+      const data = await getTimeTable(barberId || "");
       setAppointments(data);
     } catch (err) {
       setError((err as Error).message);
     } finally {
       setLoading(false);
     }
-  };
+  }, [barberId]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   if (loading)
     return (
       <div className="flex justify-center items-center p-6">
         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-500 border-solid"></div>
-        <span className="ml-3 text-slate-600">Loading...</span>
+        <span className="ml-3 text-slate-600">{t("LoadingDashboard")}</span>
       </div>
     );
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
     <>
-      <h2 className="text-xl font-semibold mb-4 text-slate-800">👤 Times</h2>
+      <h2 className="text-xl font-semibold mb-4 text-slate-800">
+        👤 {t("Times")}
+      </h2>
       <div className="flex justify-start w-[65%]">
         <button
           onClick={() => {
@@ -57,15 +64,15 @@ function TimeTable() {
           }}
           className="bg-green-500 text-white px-2 py-1 rounded-md cursor-pointer mb-5"
         >
-          add new time
+          {t("AddNewTime")}
         </button>
       </div>
       <div className="overflow-x-auto rounded-2xl shadow-lg border border-slate-200 w-[65%]">
         <table className="w-full border-collapse bg-white  text-sm text-slate-600 text-center">
           <thead className="bg-slate-100">
             <tr>
-              <th className="px-4 py-3 font-medium">times</th>
-              <th className="px-4 py-3 font-medium">Actions</th>
+              <th className="px-4 py-3 font-medium">{t("Times")}</th>
+              <th className="px-4 py-3 font-medium">{t("Actions")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-200">
@@ -82,20 +89,20 @@ function TimeTable() {
               .map((time) => (
                 <tr key={time._id} className="hover:bg-slate-50">
                   <td className="px-4 py-3">{time.from_time}</td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3 flex justify-center gap-2">
                     <span
                       onClick={() => {
                         setSelected(time);
                       }}
                       className="bg-blue-500 text-white px-2 py-1 rounded-md cursor-pointer"
                     >
-                      Edit
+                      {t("Edit")}
                     </span>
                     <span
                       onClick={async () => {
                         if (
                           !window.confirm(
-                            "Are you sure you want to delete this appointment?"
+                            "Are you sure you want to delete this appointment?",
                           )
                         )
                           return;
@@ -107,9 +114,9 @@ function TimeTable() {
                           toast.error("Failed to delete appointment");
                         }
                       }}
-                      className="bg-red-500 text-white px-2 py-1 rounded-md cursor-pointer ml-2"
+                      className="bg-red-500 text-white px-2 py-1 rounded-md cursor-pointer "
                     >
-                      Delete
+                      {t("Delete")}
                     </span>
                   </td>
                 </tr>
@@ -128,7 +135,7 @@ function TimeTable() {
         >
           <div className="flex flex-col gap-4 p-4">
             <h3 className="text-xl font-semibold text-slate-800 border-b pb-2">
-              {isAdding ? "➕ Add Time" : "✏️ Edit Time"}
+              {isAdding ? `➕ ${t("AddNewTime")}` : `✏️ ${t("EditTime")}`}
             </h3>
             <div className="flex flex-col">
               <input
@@ -146,7 +153,7 @@ function TimeTable() {
                 }}
                 className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition cursor-pointer"
               >
-                Cancel
+                {t("Cancel")}
               </button>
               <button
                 onClick={async () => {
@@ -160,11 +167,13 @@ function TimeTable() {
                       await createTimeTable({
                         from_time: timeValue,
                         to_time: timeValue,
+                        barber: barberId || "",
                       });
                       toast.success("New time added successfully");
                     } else {
                       await editTimeTable(selected?._id || "", {
                         from_time: timeValue,
+                        to_time: timeValue,
                       });
                       toast.success("Update completed successfully");
                     }
@@ -177,7 +186,7 @@ function TimeTable() {
                 }}
                 className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 shadow-md transition cursor-pointer"
               >
-                Save
+                {t("Save")}
               </button>
             </div>
           </div>
