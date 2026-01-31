@@ -66,21 +66,54 @@ function AppointmentsTable({
       setLoading(false);
     }
   };
-  const timeToMinutes = (time?: string) => {
-    if (!time) return 0;
+  // const timeToMinutes = (time?: string) => {
+  //   if (!time) return 0;
 
-    const [t, period] = time.split(" ");
+  //   const [t, period] = time.split(" ");
+
+  //   const [h, m] = t.split(":");
+
+  //   let hours = Number(h);
+  //   const minutes = Number(m);
+
+  //   if (period.toLowerCase() === "pm" && hours !== 12) {
+  //     hours += 12;
+  //   }
+
+  //   if (period.toLowerCase() === "am" && hours === 12) {
+  //     hours = 0;
+  //   }
+
+  //   return hours * 60 + minutes;
+  // };
+
+  const timeToMinutes = (time?: string) => {
+    if (!time || typeof time !== "string") return 0;
+
+    const parts = time.trim().split(" ");
+
+    if (parts.length !== 2) return 0;
+
+    const [t, period] = parts;
+
+    if (!period) return 0;
 
     const [h, m] = t.split(":");
+
+    if (!h || !m) return 0;
 
     let hours = Number(h);
     const minutes = Number(m);
 
-    if (period.toLowerCase() === "pm" && hours !== 12) {
+    if (isNaN(hours) || isNaN(minutes)) return 0;
+
+    const p = period.toLowerCase();
+
+    if (p === "pm" && hours !== 12) {
       hours += 12;
     }
 
-    if (period.toLowerCase() === "am" && hours === 12) {
+    if (p === "am" && hours === 12) {
       hours = 0;
     }
 
