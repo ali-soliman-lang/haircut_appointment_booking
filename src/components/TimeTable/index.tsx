@@ -68,61 +68,72 @@ function TimeTable() {
         </button>
       </div>
       <div className="overflow-x-auto rounded-2xl shadow-lg border border-slate-200 w-[65%]">
-        <table className="w-full border-collapse bg-white  text-sm text-slate-600 text-center">
-          <thead className="bg-slate-100">
-            <tr>
-              <th className="px-4 py-3 font-medium">{t("Times")}</th>
-              <th className="px-4 py-3 font-medium">{t("Actions")}</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-200">
-            {[...appointments]
-              .sort((a, b) => {
-                const isAM_A = a.from_time.toLowerCase().includes("am");
-                const isAM_B = b.from_time.toLowerCase().includes("am");
+        {loading ? (
+          <div className="flex justify-center items-center p-6">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-500 border-solid"></div>
+            <span className="ml-3 text-slate-600">{t("LoadingDashboard")}</span>
+          </div>
+        ) : appointments.length === 0 ? (
+          <div className="p-6 text-center text-slate-500">
+            {t("NoTimesFound")}
+          </div>
+        ) : (
+          <table className="w-full border-collapse bg-white  text-sm text-slate-600 text-center">
+            <thead className="bg-slate-100">
+              <tr>
+                <th className="px-4 py-3 font-medium">{t("Times")}</th>
+                <th className="px-4 py-3 font-medium">{t("Actions")}</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200">
+              {[...appointments]
+                .sort((a, b) => {
+                  const isAM_A = a.from_time.toLowerCase().includes("am");
+                  const isAM_B = b.from_time.toLowerCase().includes("am");
 
-                if (isAM_A && !isAM_B) return 1;
-                if (!isAM_A && isAM_B) return -1;
+                  if (isAM_A && !isAM_B) return 1;
+                  if (!isAM_A && isAM_B) return -1;
 
-                return a.from_time.localeCompare(b.from_time);
-              })
-              .map((time) => (
-                <tr key={time._id} className="hover:bg-slate-50">
-                  <td className="px-4 py-3">{time.from_time}</td>
-                  <td className="px-4 py-3 flex justify-center gap-2">
-                    <span
-                      onClick={() => {
-                        setSelected(time);
-                      }}
-                      className="bg-blue-500 text-white px-2 py-1 rounded-md cursor-pointer"
-                    >
-                      {t("Edit")}
-                    </span>
-                    <span
-                      onClick={async () => {
-                        if (
-                          !window.confirm(
-                            "Are you sure you want to delete this appointment?",
+                  return a.from_time.localeCompare(b.from_time);
+                })
+                .map((time) => (
+                  <tr key={time._id} className="hover:bg-slate-50">
+                    <td className="px-4 py-3">{time.from_time}</td>
+                    <td className="px-4 py-3 flex justify-center gap-2">
+                      <span
+                        onClick={() => {
+                          setSelected(time);
+                        }}
+                        className="bg-blue-500 text-white px-2 py-1 rounded-md cursor-pointer"
+                      >
+                        {t("Edit")}
+                      </span>
+                      <span
+                        onClick={async () => {
+                          if (
+                            !window.confirm(
+                              "Are you sure you want to delete this appointment?",
+                            )
                           )
-                        )
-                          return;
-                        try {
-                          await deleteTimeTable(time._id || "");
-                          toast.success("Appointment deleted successfully");
-                          fetchData();
-                        } catch {
-                          toast.error("Failed to delete appointment");
-                        }
-                      }}
-                      className="bg-red-500 text-white px-2 py-1 rounded-md cursor-pointer "
-                    >
-                      {t("Delete")}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+                            return;
+                          try {
+                            await deleteTimeTable(time._id || "");
+                            toast.success("Appointment deleted successfully");
+                            fetchData();
+                          } catch {
+                            toast.error("Failed to delete appointment");
+                          }
+                        }}
+                        className="bg-red-500 text-white px-2 py-1 rounded-md cursor-pointer "
+                      >
+                        {t("Delete")}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        )}
       </div>
 
       {(selected || isAdding) && (
