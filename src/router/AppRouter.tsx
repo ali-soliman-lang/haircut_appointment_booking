@@ -6,6 +6,7 @@ import Login from "../pages/login";
 import WelcomeScreen from "../pages/welcomeScreen";
 import ReservationSuccess from "../pages/ReservationSuccess";
 import SelectBarber from "../pages/SelectBarber";
+import CreateBarber from "../pages/createBarber";
 function AppRouter() {
   return (
     <Routes>
@@ -22,6 +23,7 @@ function AppRouter() {
       />
       <Route path="/login" element={<Login />} />
       <Route path="/success" element={<ReservationSuccess />} />
+      <Route path="/createBarber" element={<CreateBarber />} />
     </Routes>
   );
 }

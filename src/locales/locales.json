@@ -25,7 +25,12 @@
       "Finish": "Finish",
       "TimeAlreadyReserved": "Time Already Reserved",
       "SelectYourBarber": "Pick Your Favorite Barber",
-      "barbers": { "Rezk": "Rezk", "mostafa": "Mostafa" },
+      "barbers": {
+        "Rezk": "Rezk",
+        "mostafa": "Mostafa",
+        "Ahmed": "Ahmed",
+        "Ali": "Ali"
+      },
       "Logout": "Logout",
       "Appointments": "Appointments",
       "Times": "Times",
@@ -75,7 +80,12 @@
       "Finish": "انهاء",
       "TimeAlreadyReserved": "عذرًا، هذا الموعد محجوز بالفعل",
       "SelectYourBarber": "اختر الحلاق المفضل لديك",
-      "barbers": { "Rezk": "رزق", "mostafa": "مصطفى" },
+      "barbers": {
+        "Rezk": "رزق",
+        "mostafa": "مصطفى",
+        "Ahmed": "أحمد",
+        "Ali": "علي"
+      },
       "Logout": "تسجيل خروج",
       "Appointments": "المواعيد",
       "Times": "الوقت",

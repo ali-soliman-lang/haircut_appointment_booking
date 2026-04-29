@@ -54,8 +54,9 @@ function TextInput({
           {placeholder}
         </span>
         <span className="absolute inset-0 bg-[rgba(0,0,0,0.05)] scale-x-0 origin-left transition-transform duration-100 peer-focus:scale-x-100 -z-10"></span>
+
+        <p className="mt-1 text-xs text-red-600 px-2 py-1">{helperText}</p>
       </label>
-      <p className="mt-1 text-xs text-red-600 px-2 py-1">{helperText}</p>
     </>
   );
 }
