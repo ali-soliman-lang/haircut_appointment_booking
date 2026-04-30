@@ -88,6 +88,7 @@ function ReservationSuccess() {
               <span className="font-semibold text-gray-700">{t("Time")} :</span>
               <span>{selectedTime?.from_time}</span>
             </p>
+            <p className="text-sm text-yellow-600 mt-2">{t("DelayNote")}</p>
           </div>
 
           <button

@@ -51,7 +51,8 @@
       "Close": "Close",
       "NoAvailableTimes": "No Available Times",
       "NoTimesFound": "No times found.",
-      "changeLanguage": "EN"
+      "changeLanguage": "EN",
+      "DelayNote": "Please note: there may be a delay of up to 20 minutes."
     }
   },
   "ar": {
@@ -106,7 +107,8 @@
       "Close": "اغلاق",
       "NoAvailableTimes": "لا توجد مواعيد متاحة",
       "NoTimesFound": "لا توجد أوقات متاحة",
-      "changeLanguage": "AR"
+      "changeLanguage": "AR",
+      "DelayNote": "يرجى العلم أنه قد يحدث تأخير يصل إلى 20 دقيقة."
     }
   }
 }
