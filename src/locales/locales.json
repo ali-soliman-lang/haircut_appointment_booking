@@ -27,9 +27,8 @@
       "SelectYourBarber": "Pick Your Favorite Barber",
       "barbers": {
         "Rezk": "Rezk",
-        "mostafa": "Mostafa",
-        "Ahmed": "Ahmed",
-        "Ali": "Ali"
+        "Hassan": "Hassan",
+        "Mohamed": "Mohamed"
       },
       "Logout": "Logout",
       "Appointments": "Appointments",
@@ -83,9 +82,8 @@
       "SelectYourBarber": "اختر الحلاق المفضل لديك",
       "barbers": {
         "Rezk": "رزق",
-        "mostafa": "مصطفى",
-        "Ahmed": "أحمد",
-        "Ali": "علي"
+        "Hassan": "حسن",
+        "Mohamed": "محمد"
       },
       "Logout": "تسجيل خروج",
       "Appointments": "المواعيد",
