@@ -28,7 +28,8 @@
       "barbers": {
         "Rezk": "Rezk",
         "Hassan": "Hassan",
-        "Mostafa": "Mostafa"
+        "Mostafa": "Mostafa",
+        "Mohamed": "Mohamed"
       },
       "Logout": "Logout",
       "Appointments": "Appointments",
@@ -83,7 +84,8 @@
       "barbers": {
         "Rezk": "رزق",
         "Hassan": "حسن",
-        "Mostafa": "مصطفى"
+        "Mostafa": "مصطفى",
+        "Mohamed": "محمد"
       },
       "Logout": "تسجيل خروج",
       "Appointments": "المواعيد",
