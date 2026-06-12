@@ -5,6 +5,7 @@ import BarberBox from "../../components/BarberBox";
 import { getBarbers } from "../../api/Barbers";
 import Spinner from "../../components/spinner";
 import { useTranslation } from "react-i18next";
+import { FaLongArrowAltDown } from "react-icons/fa";
 
 interface Barber {
   _id: string;
@@ -17,6 +18,8 @@ function SelectBarber() {
   const { t } = useTranslation();
   const [barbers, setBarbers] = useState<Barber[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showArrow, setShowArrow] = useState(true);
+
   const [selectedBarber, setSelectedBarber] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
   const fromPage = searchParams.get("from");
@@ -36,45 +39,73 @@ function SelectBarber() {
     fetchBarbers();
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setShowArrow(false);
+      } else {
+        setShowArrow(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   if (loading) return <Spinner />;
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-center items-center text-center pt-[80px] px-[20px]">
+    <div className="relative min-h-screen flex flex-col justify-center items-center text-center pt-[80px] px-[20px] overflow-x-hidden">
       <LanguageToggle />
       <h2 className="text-xl font-semibold text-center mb-4">
         {t("SelectYourBarber")}
       </h2>
+      <div className="relative">
+        <BarberBox>
+          {barbers.map((barber) => (
+            <div
+              key={barber._id}
+              onClick={() => {
+                setSelectedBarber(barber._id);
 
-      <BarberBox>
-        {barbers.map((barber) => (
-          <div
-            key={barber._id}
-            onClick={() => {
-              setSelectedBarber(barber._id);
-              if (fromPage === "login") {
-                navigate(
-                  `/dashboard?barberId=${barber._id}&name=${barber.name}`,
-                );
-              } else if (fromPage === "WelcomeScreen") {
-                navigate(
-                  `/reservation?barberId=${barber._id}&name=${barber.name}`,
-                );
-              } else if (fromPage === "dashboard") {
-                navigate(
-                  `/dashboard?barberId=${barber._id}&name=${barber.name}`,
-                );
-              }
-            }}
-            className={`card ${selectedBarber === barber._id ? "active" : ""}`}
-          >
-            <div className="card-info">
-              <span className="title text-2xl font-bold">
-                {t(`barbers.${barber.name}`)}
-              </span>
+                const base = `?barberId=${barber._id}&name=${barber.name}`;
+
+                if (fromPage === "login" || fromPage === "dashboard") {
+                  navigate(`/dashboard${base}`);
+                } else {
+                  navigate(`/reservation${base}`);
+                }
+              }}
+              className={`card ${selectedBarber === barber._id ? "active" : ""}`}
+            >
+              <img
+                src="/images/razor-img.png"
+                alt="barber"
+                className="card-image"
+              />
+
+              <div className="overlay">
+                <span className="title text-2xl font-bold">
+                  {t(`barbers.${barber.name}`)}
+                </span>
+              </div>
             </div>
+          ))}
+        </BarberBox>
+        {showArrow && (
+          <div
+            onClick={() => {
+              window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: "smooth",
+              });
+            }}
+            className="fixed bottom-5 left-1/2 -translate-x-1/2 text-xl animate-bounce block md:hidden"
+          >
+            <FaLongArrowAltDown />
           </div>
-        ))}
-      </BarberBox>
+        )}
+      </div>
     </div>
   );
 }
