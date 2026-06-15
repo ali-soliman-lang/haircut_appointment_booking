@@ -85,7 +85,9 @@ function SelectBarber() {
               />
 
               <div className="overlay">
-                <span className="title text-2xl font-bold">
+                <span
+                  className={`title font-bold ${barber.name?.toLowerCase() === "rezk" ? "text-[1.5rem]" : "text-[1.1rem]"}`}
+                >
                   {t(`barbers.${barber.name}`)}
                 </span>
               </div>
